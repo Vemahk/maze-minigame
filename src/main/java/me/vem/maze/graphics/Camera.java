@@ -32,10 +32,10 @@ public class Camera extends JPanel{
 		super.paintComponent(g);
 		
 		Player player = Player.getInstance();
-		int prx = getRelX(player.getPos().getX());
-		int pry = getRelY(player.getPos().getY());
 		int pw = getRelSize(player.getWidth());
 		int ph = getRelSize(player.getHeight());
+		int prx = getRelX(player.getPos().getX()) - pw/2;
+		int pry = getRelY(player.getPos().getY()) - ph/2;
 		
 		g.setColor(Color.RED);
 		g.fillRect(prx, pry, pw, ph);

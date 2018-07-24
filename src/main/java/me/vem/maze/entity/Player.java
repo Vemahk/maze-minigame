@@ -1,6 +1,5 @@
 package me.vem.maze.entity;
 
-import me.vem.maze.Logger;
 import me.vem.maze.input.Setting;
 import me.vem.maze.math.Vector;
 import me.vem.maze.struct.Maze;
@@ -21,7 +20,7 @@ public class Player {
 	private Vector dim;
 	
 	private Player(float w, float h) {
-		this.pos = new Vector(.1f, .1f);
+		this.pos = new Vector(.5f, .5f);
 		this.dim = new Vector(w, h);
 		this.speed = 5;
 	}
@@ -59,12 +58,16 @@ public class Player {
 		
 		pos.offset(mx, my);
 		
-		if(node==null) return;
-		if(node.get(3) && (pos.getX() < nx)) pos.setX(nx);
-		if(node.get(0) && (pos.getY() < ny)) pos.setY(ny);
+		if(node==null) {
+			Maze.getInstance().rebuild();
+			pos.set(.1f, .1f);
+			return;
+		}
+		if(node.get(3) && (pos.getX() - getWidth()/2 < nx)) pos.setX(nx + getWidth()/2);
+		if(node.get(0) && (pos.getY() - getHeight()/2 < ny)) pos.setY(ny + getHeight()/2);
 		
-		if(node.get(1) && pos.getX() + getWidth() > nx + 1) pos.setX(nx + 1 - getWidth());
-		if(node.get(2) && pos.getY() + getHeight() > ny + 1) pos.setY(ny + 1 - getHeight());
+		if(node.get(1) && pos.getX() + getWidth()/2 > nx + 1) pos.setX(nx + 1 - getWidth()/2);
+		if(node.get(2) && pos.getY() + getHeight()/2 > ny + 1) pos.setY(ny + 1 - getHeight()/2);
 	}
 	
 	public String toString() {

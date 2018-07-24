@@ -57,6 +57,7 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener{
 	}
 
 	public void mouseDragged(MouseEvent e) {
+		if(onMouseDown == null) return;
 		Vector dv = new Vector(onMouseDown.x - e.getX(), onMouseDown.y - e.getY());
 		ClientThread.getInstance().getCamera().getPos().set(initCamPos.add(dv));
 	}
