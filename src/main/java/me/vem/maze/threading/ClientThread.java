@@ -2,9 +2,15 @@ package me.vem.maze.threading;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
 
 import javax.swing.JFrame;
 
+import me.vem.maze.App;
+import me.vem.maze.Logger;
 import me.vem.maze.graphics.Camera;
 import me.vem.maze.input.Input;
 
@@ -19,29 +25,49 @@ public class ClientThread extends Thread{
 
 	private static final int FPS = 60;
 	
+	private Socket client;
+	private InputStream fromServer;
+	private OutputStream toServer;
+	
 	private JFrame frame;
 	private Camera camera;
 	
 	public void run() {
-		buildFrame();
-		
-		while(true) {
-			frame.repaint();
+		if(App.isServer) {
 			try {
-				Thread.sleep(1000/FPS);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+				client = new Socket("localhost", 9090);
+				fromServer = client.getInputStream();
+				toServer = client.getOutputStream();
+				
+				Logger.info("Connected to localhost server.");
+			} catch (IOException e1) { e1.printStackTrace(); }
+		
+			buildFrame();
+		
+			while(true) {
+				frame.repaint();
+				try {
+					int nanosleep = 100000000 / FPS;
+					Thread.sleep(nanosleep / 1000000, nanosleep % 1000000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
+		}else {
+			
 		}
 	}
 	
-	public JFrame getFrame() {
-		return frame;
+	@Override
+	public void interrupt() {
+		super.interrupt();
+		try {
+			client.close();
+		} catch (IOException e) { e.printStackTrace(); }
 	}
 	
-	public Camera getCamera() {
-		return camera;
-	}
+	public JFrame getFrame() { return frame; }
+	public Camera getCamera() { return camera; }
 	
 	private void buildFrame() {
 		frame = new JFrame("Mazery!");
@@ -61,5 +87,15 @@ public class ClientThread extends Thread{
 		frame.addMouseListener(Input.getInstance());
 		frame.addMouseMotionListener(Input.getInstance());
 	}
-	
+
+	/**
+	 * This writes the byte array 'bs' to the output stream that sends data from the client to the server.
+	 * @param bs
+	 */
+	public void write(byte[] bs) {
+		try {
+			for(byte b : bs)
+				toServer.write(b);
+		} catch (IOException e) { e.printStackTrace(); }
+	}
 }

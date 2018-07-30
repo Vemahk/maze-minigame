@@ -7,8 +7,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import me.vem.maze.math.Vector;
 import me.vem.maze.threading.ClientThread;
+import me.vem.utils.math.Vector;
 
 public class Input implements KeyListener, MouseListener, MouseMotionListener{
 
@@ -48,7 +48,7 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener{
 	
 	public void mousePressed(MouseEvent e) {
 		onMouseDown = e.getPoint();
-		initCamPos = ClientThread.getInstance().getCamera().getPos().copy();
+		initCamPos = new Vector(ClientThread.getInstance().getCamera().getPos());
 	}
 
 	public void mouseReleased(MouseEvent e) {

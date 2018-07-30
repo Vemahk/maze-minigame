@@ -1,6 +1,8 @@
 package me.vem.maze.threading;
 
 import me.vem.maze.entity.Player;
+import me.vem.maze.entity.Wanderer;
+import me.vem.maze.socket.SocketHost;
 import me.vem.maze.struct.Maze;
 
 public class ServerThread extends Thread{
@@ -17,14 +19,21 @@ public class ServerThread extends Thread{
 	private Maze mazeRef;
 	
 	public void run() {
+		
+		SocketHost.getInstance();
+		
 		mazeRef = Maze.getInstance();
 		mazeRef.build();
 		
 		while(true) {
-			Player.getInstance().update(UPS);
+			for(Player player : Player.all)
+				player.update(UPS);
+			
+			Wanderer.getInstance().update(UPS);
 			
 			try {
-				Thread.sleep(1000/UPS);
+				int nanosleep = 1000000000 / UPS;
+				Thread.sleep(nanosleep / 1000000, nanosleep % 1000000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

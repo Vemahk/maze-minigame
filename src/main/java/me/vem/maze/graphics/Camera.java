@@ -7,8 +7,9 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import me.vem.maze.entity.Player;
-import me.vem.maze.math.Vector;
+import me.vem.maze.entity.Wanderer;
 import me.vem.maze.struct.Maze;
+import me.vem.utils.math.Vector;
 
 public class Camera extends JPanel{
 
@@ -31,14 +32,24 @@ public class Camera extends JPanel{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		Player player = Player.getInstance();
-		int pw = getRelSize(player.getWidth());
-		int ph = getRelSize(player.getHeight());
-		int prx = getRelX(player.getPos().getX()) - pw/2;
-		int pry = getRelY(player.getPos().getY()) - ph/2;
-		
 		g.setColor(Color.RED);
-		g.fillRect(prx, pry, pw, ph);
+		for(Player player : Player.all) {
+			int pw = getRelSize(player.getWidth()),
+				ph = getRelSize(player.getHeight()),
+				prx = getRelX(player.getPos().getX()) - pw/2,
+				pry = getRelY(player.getPos().getY()) - ph/2;
+			
+			g.fillRect(prx, pry, pw, ph);
+		}
+		
+		Wanderer wand = Wanderer.getInstance();
+		int ww = getRelSize(wand.getWidth());
+		int wh = getRelSize(wand.getHeight());
+		int wrx = getRelX(wand.getPos().getX()) - ww/2;
+		int wry = getRelY(wand.getPos().getY()) - wh/2;
+		
+		g.setColor(Color.GREEN);
+		g.fillRect(wrx, wry, ww, wh);
 		
 		g.setColor(Color.WHITE);
 		

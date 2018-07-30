@@ -1,28 +1,33 @@
 package me.vem.maze.entity;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import me.vem.maze.input.Setting;
-import me.vem.maze.math.Vector;
+import me.vem.maze.socket.ClientHandler;
 import me.vem.maze.struct.Maze;
 import me.vem.maze.struct.Maze.Node;
+import me.vem.utils.math.Vector;
 
 public class Player {
 
-	private static Player instance;
-	public static Player getInstance() {
-		if(instance == null)
-			instance = new Player(.5f, .5f);
-		return instance;
-	}
+	public static List<Player> all = new LinkedList<>();
+	
+	private ClientHandler handler;
 	
 	private Vector pos;
 	private float speed;
 	
 	private Vector dim;
 	
-	private Player(float w, float h) {
+	public Player(ClientHandler handler) {
 		this.pos = new Vector(.5f, .5f);
-		this.dim = new Vector(w, h);
+		this.dim = new Vector(.5f, .5f);
 		this.speed = 5;
+		
+		this.handler = handler;
+		
+		all.add(this);
 	}
 	
 	public Vector getPos() {
@@ -39,10 +44,10 @@ public class Player {
 	
 	public void update(float tr) {
 		
-		boolean up = Setting.MOVE_UP.isPressed();
-		boolean down = Setting.MOVE_DOWN.isPressed();
-		boolean left = Setting.MOVE_LEFT.isPressed();
-		boolean right = Setting.MOVE_RIGHT.isPressed();
+		boolean up = handler.isPressed(1);
+		boolean down = handler.isPressed(2);
+		boolean right = handler.isPressed(3);
+		boolean left = handler.isPressed(4);
 		
 		/* mx --> Move X */
 		float mx = (left ^ right ? (left ? -1 : 1) : 0) * speed / tr;
