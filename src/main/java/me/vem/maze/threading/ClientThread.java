@@ -10,9 +10,9 @@ import java.net.Socket;
 import javax.swing.JFrame;
 
 import me.vem.maze.App;
-import me.vem.maze.Logger;
 import me.vem.maze.graphics.Camera;
 import me.vem.maze.input.Input;
+import me.vem.utils.logging.Logger;
 
 public class ClientThread extends Thread{
 
@@ -26,6 +26,7 @@ public class ClientThread extends Thread{
 	private static final int FPS = 60;
 	
 	private Socket client;
+	@SuppressWarnings("unused")
 	private InputStream fromServer;
 	private OutputStream toServer;
 	

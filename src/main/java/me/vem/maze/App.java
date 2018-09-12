@@ -1,8 +1,9 @@
 package me.vem.maze;
 
-import me.vem.maze.threading.*;
 
-import static me.vem.maze.Logger.*;
+import me.vem.maze.threading.ClientThread;
+import me.vem.maze.threading.ServerThread;
+import me.vem.utils.logging.Logger;
 
 public class App {
 	
@@ -13,8 +14,8 @@ public class App {
 	public static final String NAME = "Mazery";
 	
 	public static void main(String... args) {
-		info("Hello World!");
-		warning("JAVA is the most bestest language.");
+		Logger.info("Hello World!");
+		Logger.warning("JAVA is the most bestest language.");
 		
 		if(isServer)
 			ServerThread.getInstance().start();

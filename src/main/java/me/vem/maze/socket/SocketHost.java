@@ -2,12 +2,11 @@ package me.vem.maze.socket;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.LinkedList;
 
 import me.vem.maze.App;
-import me.vem.maze.Logger;
 import me.vem.maze.threading.ServerThread;
+import me.vem.utils.logging.Logger;
 
 public class SocketHost extends ServerSocket{
 

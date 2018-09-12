@@ -76,7 +76,7 @@ public class Wanderer {
 	}
 	
 	public String toString() {
-		return String.format("Player[%.3f,%.3f]", pos.getX(), pos.getY());
+		return String.format("Wanderer[%.3f,%.3f]", pos.getX(), pos.getY());
 	}
 }
 

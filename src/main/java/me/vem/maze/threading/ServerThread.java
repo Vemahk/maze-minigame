@@ -35,7 +35,6 @@ public class ServerThread extends Thread{
 				int nanosleep = 1000000000 / UPS;
 				Thread.sleep(nanosleep / 1000000, nanosleep % 1000000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

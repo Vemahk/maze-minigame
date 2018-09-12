@@ -3,7 +3,6 @@ package me.vem.maze.entity;
 import java.util.LinkedList;
 import java.util.List;
 
-import me.vem.maze.input.Setting;
 import me.vem.maze.socket.ClientHandler;
 import me.vem.maze.struct.Maze;
 import me.vem.maze.struct.Maze.Node;
@@ -68,6 +67,8 @@ public class Player {
 			pos.set(.1f, .1f);
 			return;
 		}
+		
+		/* Collision Handling */
 		if(node.get(3) && (pos.getX() - getWidth()/2 < nx)) pos.setX(nx + getWidth()/2);
 		if(node.get(0) && (pos.getY() - getHeight()/2 < ny)) pos.setY(ny + getHeight()/2);
 		
